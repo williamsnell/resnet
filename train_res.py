@@ -1,5 +1,5 @@
-from typing import Optional, Type
-from dataclasses import dataclass
+from typing import Optional, Type, List
+from dataclasses import dataclass, replace, field
 
 import torch as t
 import torch.nn.functional as F
@@ -118,24 +118,38 @@ class ResNetTrainerWandb:
       progress_bar.set_description(f"Epoch {epoch+1}/{self.args.epochs}, Loss = {loss:.2f}, Accuracy = {accuracy:.2f}")
       wandb.log({"accuracy": accuracy.item()}, step)
 
+
+def fac(arg: List):
+    return field(default_factory=lambda: arg)
+
+@dataclass
+class ResNetParams(ResNetTrainingArgsWandb):
+    n_blocks_per_group: List[int] = fac([3, 4, 6, 3])
+    out_features_per_group: List[int] = fac([64, 128, 256, 512])
+    first_strides_per_group: List[int] = fac([1, 2, 2, 2])
+    n_classes: int = 10
+
+
 class ResNetTrainerWandbSweeps(ResNetTrainerWandb):
     '''
     New training class made specifically for hyperparameter sweeps, which overrides the values in
     `args` with those in `wandb.config` before defining model/optimizer/datasets.
     '''
-    def __init__(self, args: ResNetTrainingArgsWandb):
+    def __init__(self, args: ResNetParams):
 
         # Initialize
         wandb.init(name=args.wandb_name)
 
         # Update args with the values in wandb.config
-        self.args = args
-        self.args.batch_size = wandb.config["batch_size"]
-        self.args.epochs = wandb.config["epochs"]
-        self.args.learning_rate = wandb.config["learning_rate"]
+        self.args = replace(args, **wandb.config)
 
         # Perform the previous steps (initialize model & other important objects)
-        self.model = ResNet34().to(device)
+        self.model = ResNet34(
+            self.args.n_blocks_per_group,
+            self.args.out_features_per_group,
+            self.args.first_strides_per_group,
+            self.args.n_classes,
+            ).to(device)
         self.optimizer = t.optim.Adam(self.model.parameters(), lr=self.args.learning_rate)
         self.trainset, self.testset = get_cifar(subset=self.args.subset)
         self.step = 0
@@ -152,17 +166,17 @@ if __name__ == '__main__':
                 "min": 1e-4,
             },
             "batch_size": {"values": [32, 64, 128, 256]},
-            "epochs": {"values": [1]},
         }
     )
 
-    args = ResNetTrainingArgsWandb()
 
+    args = ResNetParams()
+    args.epochs = 1
 
     def train():
         trainer = ResNetTrainerWandbSweeps(args)
         trainer.train()
 
     sweep_id = wandb.sweep(sweep=sweep_config, project='day3-resnet-sweep')
-    wandb.agent(sweep_id=sweep_id, function=train, count=3)
+    wandb.agent(sweep_id=sweep_id, function=train, count=12)
     wandb.finish()
