@@ -25,17 +25,17 @@ class ResidualBlock(t.nn.Module):
 
         self.relu = nn.ReLU()
 
-        def forward(self, x: t.Tensor) -> t.Tensor:
-            """
-            x: shape (batch, in_feats, height, width)
+    def forward(self, x: t.Tensor) -> t.Tensor:
+        """
+        x: shape (batch, in_feats, height, width)
 
-            Return: shape (batch, out_feats, height / stride, width / stride)
+        Return: shape (batch, out_feats, height / stride, width / stride)
 
-            If no downsampling block is present, the residual branch (right branch) 
-            adds the input to the output. If there is downsampling, then the residual
-            (skip) connection includes a convolution and a batch norm.
-            """
-            return self.relu(self.left(x) + self.right(x))
+        If no downsampling block is present, the residual branch (right branch) 
+        adds the input to the output. If there is downsampling, then the residual
+        (skip) connection includes a convolution and a batch norm.
+        """
+        return self.relu(self.left(x) + self.right(x))
 
 
 class BlockGroup(nn.Module):

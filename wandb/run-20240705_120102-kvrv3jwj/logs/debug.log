@@ -1,0 +1,33 @@
+2024-07-05 12:01:02,578 INFO    Thread-3 (_run_job):27629 [wandb_setup.py:_flush():76] Current SDK version is 0.17.4
+2024-07-05 12:01:02,578 INFO    Thread-3 (_run_job):27629 [wandb_setup.py:_flush():76] Configure stats pid to 27629
+2024-07-05 12:01:02,578 INFO    Thread-3 (_run_job):27629 [wandb_setup.py:_flush():76] Loading settings from /home/will/.config/wandb/settings
+2024-07-05 12:01:02,578 INFO    Thread-3 (_run_job):27629 [wandb_setup.py:_flush():76] Loading settings from /home/will/src/ai/resnet34/wandb/settings
+2024-07-05 12:01:02,578 INFO    Thread-3 (_run_job):27629 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'project': 'day3-resnet-sweep', 'entity': 'wsnell-Personal Projects', 'root_dir': '/home/will/src/ai/resnet34', 'sweep_id': 'mxabuk0o', 'run_id': 'kvrv3jwj', 'sweep_param_path': '/home/will/src/ai/resnet34/wandb/sweep-mxabuk0o/config-kvrv3jwj.yaml'}
+2024-07-05 12:01:02,578 INFO    Thread-3 (_run_job):27629 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-07-05 12:01:02,578 INFO    Thread-3 (_run_job):27629 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'train_res.py', 'program_abspath': '/home/will/src/ai/resnet34/train_res.py', 'program': '/home/will/src/ai/resnet34/train_res.py'}
+2024-07-05 12:01:02,579 INFO    Thread-3 (_run_job):27629 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-05 12:01:02,579 INFO    Thread-3 (_run_job):27629 [wandb_init.py:_log_setup():529] Logging user logs to /home/will/src/ai/resnet34/wandb/run-20240705_120102-kvrv3jwj/logs/debug.log
+2024-07-05 12:01:02,579 INFO    Thread-3 (_run_job):27629 [wandb_init.py:_log_setup():530] Logging internal logs to /home/will/src/ai/resnet34/wandb/run-20240705_120102-kvrv3jwj/logs/debug-internal.log
+2024-07-05 12:01:02,579 INFO    Thread-3 (_run_job):27629 [wandb_init.py:init():569] calling init triggers
+2024-07-05 12:01:02,579 INFO    Thread-3 (_run_job):27629 [wandb_init.py:init():576] wandb.init called with sweep_config: {'batch_size': 64, 'epochs': 3, 'learning_rate': 0.013113800765185611}
+config: {}
+2024-07-05 12:01:02,579 INFO    Thread-3 (_run_job):27629 [wandb_init.py:init():614] wandb.init() called when a run is still active
+2024-07-05 12:01:02,580 INFO    Thread-3 (_run_job):27629 [wandb_run.py:_finish():2109] finishing run wsnell-Personal Projects/day3-resnet-sweep/kvrv3jwj
+2024-07-05 12:01:02,580 INFO    Thread-3 (_run_job):27629 [wandb_run.py:_atexit_cleanup():2349] got exitcode: 1
+2024-07-05 12:01:02,580 INFO    Thread-3 (_run_job):27629 [wandb_run.py:_restore():2332] restore
+2024-07-05 12:01:02,580 INFO    Thread-3 (_run_job):27629 [wandb_run.py:_restore():2338] restore done
+2024-07-05 12:01:08,224 INFO    Thread-3 (_run_job):27629 [wandb_run.py:_footer_history_summary_info():3991] rendering history
+2024-07-05 12:01:08,225 INFO    Thread-3 (_run_job):27629 [wandb_run.py:_footer_history_summary_info():4023] rendering summary
+2024-07-05 12:01:08,238 INFO    Thread-3 (_run_job):27629 [wandb_run.py:_footer_sync_info():3950] logging synced files
+2024-07-05 12:01:08,241 ERROR   MainThread:27629 [pyagent.py:_run_jobs_from_queue():235] Run kvrv3jwj errored:
+Traceback (most recent call last):
+  File "/home/will/.cache/pypoetry/virtualenvs/resnet34-wAg7SDw1-py3.10/lib/python3.10/site-packages/wandb/agents/pyagent.py", line 307, in _run_job
+    self._function()
+  File "/home/will/src/ai/resnet34/train_res.py", line 147, in train
+    trainer.train()
+  File "/home/will/src/ai/resnet34/train_res.py", line 90, in train
+    wandb.watch(self.model.out_layers[-1], log='all', log_freq=10)
+  File "/home/will/.cache/pypoetry/virtualenvs/resnet34-wAg7SDw1-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1709, in __getattr__
+    raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
+AttributeError: 'ResNet34' object has no attribute 'out_layers'
+

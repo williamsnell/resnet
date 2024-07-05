@@ -87,7 +87,7 @@ class ResNetTrainerWandb:
 
   def train(self):
     wandb.init(project=self.args.wandb_project, name=self.args.wandb_name)
-    wandb.watch(self.model.out_layers[-1], log='all', log_freq=10)
+    wandb.watch(self.model, log='all', log_freq=100)
 
     step = 0
 

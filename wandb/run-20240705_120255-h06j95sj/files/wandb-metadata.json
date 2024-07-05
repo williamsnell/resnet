@@ -1,0 +1,80 @@
+{
+    "os": "Linux-6.5.0-41-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "heartbeatAt": "2024-07-05T00:02:57.065019",
+    "startedAt": "2024-07-05T00:02:55.822116",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/will/src/ai/resnet34/train_res.py",
+    "codePathLocal": "train_res.py",
+    "codePath": "train_res.py",
+    "git": {
+        "remote": "git@github.com:williamsnell/resnet.git",
+        "commit": "48eaf7963e63d671077f4e290e43f0d07d99c683"
+    },
+    "email": "aussiesnells@gmail.com",
+    "root": "/home/will/src/ai/resnet34",
+    "host": "will-ThinkPad-X395",
+    "username": "will",
+    "executable": "/home/will/.cache/pypoetry/virtualenvs/resnet34-wAg7SDw1-py3.10/bin/python",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 2571.54625,
+        "min": 1400.0,
+        "max": 2100.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1477.234,
+            "min": 1400.0,
+            "max": 2100.0
+        },
+        {
+            "current": 1477.234,
+            "min": 1400.0,
+            "max": 2100.0
+        },
+        {
+            "current": 1477.017,
+            "min": 1400.0,
+            "max": 2100.0
+        },
+        {
+            "current": 1476.701,
+            "min": 1400.0,
+            "max": 2100.0
+        },
+        {
+            "current": 3636.387,
+            "min": 1400.0,
+            "max": 2100.0
+        },
+        {
+            "current": 3063.005,
+            "min": 1400.0,
+            "max": 2100.0
+        },
+        {
+            "current": 3662.532,
+            "min": 1400.0,
+            "max": 2100.0
+        },
+        {
+            "current": 3688.035,
+            "min": 1400.0,
+            "max": 2100.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 276.6546630859375,
+            "used": 5.861328125
+        }
+    },
+    "memory": {
+        "total": 13.52663803100586
+    }
+}
