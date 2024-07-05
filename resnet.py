@@ -39,11 +39,11 @@ class ResidualBlock(t.nn.Module):
 
 
 class BlockGroup(nn.Module):
-    def __init__(self, n_blocks: int, in_feats: int, out_feats: int, first_stride=1):
+    def __init__(self, n_blocks: int, in_feats: int, out_feats: int, first_stride=1, dropout_fraction: float = 0.0):
         '''An n_blocks-long sequence of ResidualBlock where only the first block uses the provided stride.'''
         super().__init__()
 
-        blocks = [ResidualBlock(in_feats, out_feats, first_stride)] + [ResidualBlock(out_feats, out_feats) for n in range(n_blocks - 1)]
+        blocks = [nn.Dropout(p=dropout_fraction)] + [ResidualBlock(in_feats, out_feats, first_stride)] + [ResidualBlock(out_feats, out_feats) for n in range(n_blocks - 1)]
         self.blocks = nn.Sequential(*blocks)
 
 
@@ -73,14 +73,16 @@ class ResNet34(nn.Module):
         out_features_per_group=[64, 128, 256, 512],
         first_strides_per_group=[1, 2, 2, 2],
         n_classes=1000,
+        dropout_fraction=0.0,
+        first_conv_size=7,
     ):
         super().__init__()
         self.comps = nn.Sequential(
-            nn.Conv2d(3, out_features_per_group[0], 7, 2, 3),
+            nn.Conv2d(3, out_features_per_group[0], first_conv_size, 2, 3),
             nn.BatchNorm2d(out_features_per_group[0]),
             nn.ReLU(),
             nn.MaxPool2d(3, 2),
-            *[BlockGroup(n, in_features, out_features, first_stride)
+            *[BlockGroup(n, in_features, out_features, first_stride, dropout_fraction)
                 for n, in_features, out_features, first_stride in zip(
                   n_blocks_per_group,
                   [out_features_per_group[0]] + out_features_per_group,
