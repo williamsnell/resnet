@@ -40,7 +40,8 @@ def get_cifar(subset: int):
 
     if subset > 1:
         cifar_trainset = Subset(cifar_trainset, indices=range(0, len(cifar_trainset), subset))
-        cifar_testset = Subset(cifar_testset, indices=range(0, len(cifar_testset), subset))
+        # Still return the whole test set
+        # cifar_testset = Subset(cifar_testset, indices=range(0, len(cifar_testset), subset))
 
     return cifar_trainset, cifar_testset
 
@@ -140,26 +141,28 @@ class ResNetTrainerWandbSweeps(ResNetTrainerWandb):
         self.step = 0
         wandb.watch(self.model, log="all", log_freq=20)
 
-
-def train():
-    args = ResNetTrainingArgsWandb()
-    trainer = ResNetTrainerWandbSweeps(args)
-    trainer.train()
-
 if __name__ == '__main__':
     sweep_config = dict(
-    method="random",
-    metric={"goal": "maximize", "name": "accuracy"},
-    parameters={
-        "learning_rate": {
-            "distribution": "log_uniform_values",
-            "max": 1e-1,
-            "min": 1e-4,
-        },
-        "batch_size": {"values": [32, 64, 128, 256]},
-        "epochs": {"values": [1, 2, 3]},
-    }
-)
+        method="random",
+        metric={"goal": "maximize", "name": "accuracy"},
+        parameters={
+            "learning_rate": {
+                "distribution": "log_uniform_values",
+                "max": 1e-1,
+                "min": 1e-4,
+            },
+            "batch_size": {"values": [32, 64, 128, 256]},
+            "epochs": {"values": [1]},
+        }
+    )
+
+    args = ResNetTrainingArgsWandb()
+
+
+    def train():
+        trainer = ResNetTrainerWandbSweeps(args)
+        trainer.train()
+
     sweep_id = wandb.sweep(sweep=sweep_config, project='day3-resnet-sweep')
     wandb.agent(sweep_id=sweep_id, function=train, count=3)
     wandb.finish()
