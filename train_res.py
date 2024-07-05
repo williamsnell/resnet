@@ -160,18 +160,18 @@ if __name__ == '__main__':
         method="random",
         metric={"goal": "maximize", "name": "accuracy"},
         parameters={
-            "learning_rate": {
-                "distribution": "log_uniform_values",
-                "max": 1e-1,
-                "min": 1e-4,
-            },
-            "batch_size": {"values": [32, 64, 128, 256]},
+            "batch_size": {"values": [64, 128]},
+            "learning_rate": {"distribution": "log_uniform_values", "min": 0.0007 / 10, "max": 0.0007 * 10},
+            "out_features_per_group": {"values": [[64, 128, 256, 512], [32, 64, 128, 256], [128, 256, 512, 1024]]},
+            "n_blocks_per_group": {"values": [[3,4,6,3], [2, 2, 2, 2], [5, 6, 8, 5]]},
         }
     )
 
 
     args = ResNetParams()
-    args.epochs = 1
+    args.epochs = 10
+    args.learning_rate = 0.0007
+    args.wandb_project = "resnet_10_epoch"
 
     def train():
         trainer = ResNetTrainerWandbSweeps(args)
