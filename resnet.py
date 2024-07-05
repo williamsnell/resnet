@@ -76,14 +76,14 @@ class ResNet34(nn.Module):
     ):
         super().__init__()
         self.comps = nn.Sequential(
-            nn.Conv2d(3, 64, 7, 2, 3),
-            nn.BatchNorm2d(64),
+            nn.Conv2d(3, out_features_per_group[0], 7, 2, 3),
+            nn.BatchNorm2d(out_features_per_group[0]),
             nn.ReLU(),
             nn.MaxPool2d(3, 2),
             *[BlockGroup(n, in_features, out_features, first_stride)
                 for n, in_features, out_features, first_stride in zip(
                   n_blocks_per_group,
-                  [64] + out_features_per_group,
+                  [out_features_per_group[0]] + out_features_per_group,
                   out_features_per_group,
                   first_strides_per_group)
             ],

@@ -177,6 +177,6 @@ if __name__ == '__main__':
         trainer = ResNetTrainerWandbSweeps(args)
         trainer.train()
 
-    sweep_id = wandb.sweep(sweep=sweep_config, project='day3-resnet-sweep')
+    sweep_id = wandb.sweep(sweep=sweep_config, project='resnet_10_epoch_2')
     wandb.agent(sweep_id=sweep_id, function=train, count=12)
     wandb.finish()
